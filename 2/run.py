@@ -1,8 +1,3 @@
-import sys
-import os
-
-day = sys.argv[1]
-template = f"""
 import time
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
@@ -26,7 +21,7 @@ else:
         with open("input.txt", "r") as f:
             raw_input = f.read()
     except:
-        with open("{day}/input.txt", "r") as f:
+        with open("2/input.txt", "r") as f:
             raw_input  = f.read()
 raw_input = raw_input.strip()
 
@@ -38,7 +33,7 @@ input = (
         # .tokens()
         # .lines()
         # .line_tokens()
-        # .line_tokens(sep = "\\n", line_sep = "\\n\\n")
+        # .line_tokens(sep = "\n", line_sep = "\n\n")
 )
 
 def solve(input):
@@ -48,16 +43,10 @@ start = time.time()
 answer1, answer2 = solve(input)
 
 print("Part 1")
-print(f"Answer: {{answer1}}")
-# print(submit({day}, 1, answer1).text)
+print(f"Answer: {answer1}")
+# print(submit(2, 1, answer1).text)
 
 print("Part 2")
-print(f"Answer: {{answer2}}")
-# print(submit({day}, 2, answer1).text)
-print(f"Took {{time.time() - start}} seconds for both parts")
-""".strip()
-
-if not os.path.exists(day):
-    os.makedirs(day)
-with open(f"{day}/run.py", 'w') as f:
-    f.write(template)
+print(f"Answer: {answer2}")
+# print(submit(2, 2, answer1).text)
+print(f"Took {time.time() - start} seconds for both parts")

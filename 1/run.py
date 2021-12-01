@@ -17,8 +17,12 @@ args = parser.parse_args()
 if args.from_std_in:
     raw_input = clipboard.paste()
 else:
-    with open("input.txt", "r") as f:
-        raw_input = f.read()
+    try:
+        with open("input.txt", "r") as f:
+            raw_input = f.read()
+    except:
+        with open("1/input.txt", "r") as f:
+            raw_input  = f.read()
 raw_input = raw_input.strip()
 
 input = (
