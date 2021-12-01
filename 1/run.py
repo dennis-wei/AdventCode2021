@@ -37,7 +37,25 @@ input = (
 )
 
 def solve(input):
-    return None, None
+    return part1(input), part2(input)
+
+def part1(input):
+    gt = 0
+    for i, n in enumerate(input):
+        if i == 0:
+            continue
+        if n > input[i - 1]:
+            gt += 1
+    return gt
+
+def part2(input):
+    gt = 0
+    for i, n in enumerate(input):
+        if i == 0 or i == 1 or i == len(input) - 1:
+            continue
+        if input[i + 1] > input[i - 2]:
+            gt += 1
+    return gt
 
 start = time.time()
 answer1, answer2 = solve(input)
