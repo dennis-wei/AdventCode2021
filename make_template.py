@@ -57,7 +57,29 @@ print(f"Answer: {{answer2}}")
 print(f"Took {{time.time() - start}} seconds for both parts")
 """.strip()
 
-if not os.path.exists(day):
-    os.makedirs(day)
+if not os.path.exists(f"python/{day}"):
+    os.makedirs(f"python/{day}")
 with open(f"python/{day}/run.py", 'w') as f:
     f.write(python_template)
+
+elixir_template = f"""
+Code.require_file("lib/input.ex")
+filename = "input/{day}.txt"
+# filename = "test_input/{day}.txt"
+input = Input
+  # .ints(filename)
+  # .line_tokens(filename)
+
+defmodule Day{day} do
+end
+
+part1 = nil
+
+part2 = nil
+
+IO.puts("Part 1: #{{part1}}")
+IO.puts("Part 2: #{{part2}}")
+""".strip()
+
+with open(f"aoc_elixir/solutions/{day}.exs", 'w') as f:
+    f.write(elixir_template)
