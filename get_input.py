@@ -19,5 +19,7 @@ except HTTPError as http_err:
 except Exception as err:
     print(f'Other error occurred: {err}')
 else:
-    with open(f"{day}/input.txt", 'w') as f:
+    with open(f"python/{day}/input.txt", 'w') as f:
+        f.write(response.text)
+    with open(f"aoc_elixir/input/{day}.txt", 'w') as f:
         f.write(response.text)

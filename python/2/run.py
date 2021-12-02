@@ -21,50 +21,55 @@ else:
         with open("input.txt", "r") as f:
             raw_input = f.read()
     except:
-        with open("1/input.txt", "r") as f:
+        with open("python/2/input.txt", "r") as f:
             raw_input  = f.read()
 raw_input = raw_input.strip()
 
 input = (
     Input(raw_input)
         # .all()
-        .ints()
+        # .ints()
         # .int_tokens()
         # .tokens()
         # .lines()
-        # .line_tokens()
+        .line_tokens()
         # .line_tokens(sep = "\n", line_sep = "\n\n")
 )
 
-def solve(input):
-    return part1(input), part2(input)
-
 def part1(input):
-    gt = 0
-    for i, n in enumerate(input):
-        if i == 0:
-            continue
-        if n > input[i - 1]:
-            gt += 1
-    return gt
+    x, y = 0, 0
+    for (d, n) in input:
+        if d == 'forward':
+            x += int(n)
+        elif d == 'down':
+            y += int(n)
+        elif d == 'up':
+            y -= int(n)
+    return x * y
 
 def part2(input):
-    gt = 0
-    for i, n in enumerate(input):
-        if i == 0 or i == 1 or i == len(input) - 1:
-            continue
-        if input[i + 1] > input[i - 2]:
-            gt += 1
-    return gt
+    x, y, aim = 0, 0, 0
+    for (d, n) in input:
+        if d == 'forward':
+            x += int(n)
+            y += aim * int(n)
+        elif d == 'down':
+            aim += int(n)
+        elif d == 'up':
+            aim -= int(n)
+    return x * y
+
+def solve(input):
+    return part1(input), part2(input)
 
 start = time.time()
 answer1, answer2 = solve(input)
 
 print("Part 1")
 print(f"Answer: {answer1}")
-# print(submit(1, 1, answer1).text)
+# print(submit(2, 1, answer1).text)
 
 print("Part 2")
 print(f"Answer: {answer2}")
-# print(submit(1, 2, answer1).text)
+# print(submit(2, 2, answer1).text)
 print(f"Took {time.time() - start} seconds for both parts")

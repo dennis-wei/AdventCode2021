@@ -2,7 +2,7 @@ import sys
 import os
 
 day = sys.argv[1]
-template = f"""
+python_template = f"""
 import time
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
@@ -26,7 +26,7 @@ else:
         with open("input.txt", "r") as f:
             raw_input = f.read()
     except:
-        with open("{day}/input.txt", "r") as f:
+        with open("python/{day}/input.txt", "r") as f:
             raw_input  = f.read()
 raw_input = raw_input.strip()
 
@@ -59,5 +59,5 @@ print(f"Took {{time.time() - start}} seconds for both parts")
 
 if not os.path.exists(day):
     os.makedirs(day)
-with open(f"{day}/run.py", 'w') as f:
-    f.write(template)
+with open(f"python/{day}/run.py", 'w') as f:
+    f.write(python_template)
