@@ -32,9 +32,10 @@ defmodule Day3 do
   end
 
   def is_singleton(input) do
-    input
-      |> tl
-      |> Enum.empty?
+    case Enum.fetch(input, 1) do
+      :error -> !Enum.empty?(input)
+      {:ok, _} -> false
+    end
   end
 end
 
