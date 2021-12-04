@@ -46,12 +46,12 @@ acc = Map.new(0..bit_size-1, fn n -> {n, 0} end)
 counts = input
   |> Enum.reduce(acc, fn (row, acc) ->
     char_list_tuples = row
-      |> String.to_charlist
+      |> String.graphemes
       |> Enum.with_index
 
     Enum.reduce(char_list_tuples, acc, fn ({ch, idx}, acc) ->
       Map.update(acc, idx, 0, fn c ->
-        if ch == 49 do c + 1 else c - 1 end
+        if ch == "1" do c + 1 else c - 1 end
       end)
     end)
   end)

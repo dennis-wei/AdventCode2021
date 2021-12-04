@@ -69,6 +69,7 @@ filename = "input/{day}.txt"
 input = Input
   # .ints(filename)
   # .line_tokens(filename)
+  # .lines(filename)
 
 defmodule Day{day} do
 end
