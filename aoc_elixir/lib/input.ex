@@ -17,15 +17,15 @@ defmodule Input do
     input
   end
 
-  def lines(filename) do
+  def lines(filename, sep \\ "\n") do
     read_file(filename)
       |> String.trim
-      |> String.split("\n")
+      |> String.split(sep)
   end
 
-  def line_tokens(filename, sep \\ " ") do
-    lines(filename)
-      |> Enum.map(fn r -> String.split(r, sep) end)
+  def line_tokens(filename, sep1 \\ " ", sep2 \\ "\n") do
+    lines(filename, sep2)
+      |> Enum.map(fn r -> String.split(r, sep1) end)
   end
 
   def ints(filename) do
