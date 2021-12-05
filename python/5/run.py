@@ -36,36 +36,7 @@ input = (
         # .line_tokens(sep = "\n", line_sep = "\n\n")
 )
 
-def is_vert(r):
-    return r[0][0] == r[1][0]
-
-def is_hor(r):
-    return r[0][1] == r[1][1]
-
-def is_hor_vert(r):
-    return is_hor(r) or is_vert(r)
-
-def make_grid1(input):
-    split = [r.split(" -> ") for r in input]
-    as_nums = [[get_all_nums(t) for t in r] for r in split]
-    ho_vert = filter(lambda x: is_hor_vert(x), as_nums)
-
-    grid = defaultdict(int)
-
-    for r in ho_vert:
-        ((x1, y1), (x2, y2)) = r
-        if x1 == x2:
-            miny, maxy = min(y1, y2), max(y1, y2)
-            for i in range(miny, maxy + 1):
-                grid[(x1, i)] += 1
-        if y1 == y2:
-            minx, maxx = min(x1, x2), max(x1, x2)
-            for i in range(minx, maxx + 1):
-                grid[(i, y1)] += 1
-    
-    return grid
-
-def make_grid2(input):
+def make_grid(input, add_diagonal=True):
     split = [r.split(" -> ") for r in input]
     as_nums = [[get_all_nums(t) for t in r] for r in split]
 
@@ -81,15 +52,9 @@ def make_grid2(input):
             minx, maxx = min(x1, x2), max(x1, x2)
             for i in range(minx, maxx + 1):
                 grid[(i, y1)] += 1
-        else:
-            if x2 > x1:
-                xdiff = 1
-            else:
-                xdiff = -1
-            if y2 > y1:
-                ydiff = 1
-            else:
-                ydiff = -1
+        elif add_diagonal:
+            xdiff = 1 if x2 > x1 else -1
+            ydiff = 1 if y2 > y1 else -1
             
             curr = (x1, y1)
             for i in range(abs(x2 - x1) + 1):
@@ -99,8 +64,8 @@ def make_grid2(input):
     return grid
 
 def solve(input):
-    grid1 = make_grid1(input)
-    grid2 = make_grid2(input)
+    grid1 = make_grid(input, False)
+    grid2 = make_grid(input)
     return len([e for e in grid1.values() if e > 1]), len([e for e in grid2.values() if e > 1])
 
 start = time.time()
