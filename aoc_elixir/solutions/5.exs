@@ -52,13 +52,11 @@ parsed = input
 
 part1 = Day5.make_grid(parsed, false)
   |> Map.values
-  |> Enum.filter(fn n -> n > 1 end)
-  |> length
+  |> Enum.count(fn n -> n > 1 end)
 
 part2 = Day5.make_grid(parsed, true)
   |> Map.values
-  |> Enum.filter(fn n -> n > 1 end)
-  |> length
+  |> Enum.count(fn n -> n > 1 end)
 
 IO.puts("Part 1: #{part1}")
 IO.puts("Part 2: #{part2}")

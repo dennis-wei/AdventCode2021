@@ -32,4 +32,9 @@ defmodule Input do
     lines(filename)
       |> Enum.map(&String.to_integer/1)
   end
+
+  def line_of_ints(filename) do
+    lines(filename, ",")
+    |> Enum.map(&String.to_integer/1)
+  end
 end
