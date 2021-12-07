@@ -26,8 +26,12 @@ else:
         with open("input.txt", "r") as f:
             raw_input = f.read()
     except:
-        with open("python/{day}/input.txt", "r") as f:
-            raw_input  = f.read()
+        try:
+            with open("{day}/input.txt", "r") as f:
+                raw_input = f.read()
+        except:
+            with open("python/{day}/input.txt", "r") as f:
+                raw_input  = f.read()
 raw_input = raw_input.strip()
 
 input = (
@@ -70,6 +74,7 @@ input = Input
   # .ints(filename)
   # .line_tokens(filename)
   # .lines(filename)
+  # .line_of_ints(filename)
 
 defmodule Day{day} do
 end
