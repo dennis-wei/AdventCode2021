@@ -2,6 +2,8 @@ import os
 import re
 import requests
 
+from collections import defaultdict
+
 def split_newline(i):
     return [l for l in i.split("\n")]
 
@@ -63,10 +65,11 @@ class Input:
         return [get_all_nums(l) for l in self.lines()]
 
 class Grid:
-    def __init__(self, input, replacements = {}):
+    def __init__(self, input, replacements = {}, default = "."):
         self.grid = {}
         self.height = len(input)
         self.length = len(input[0])
+        self.default = default
         for row_num, row in enumerate(input):
             for col_num, c in enumerate(row):
                 self.grid[(row_num, col_num)] = replacements.get(c, c)
@@ -79,12 +82,12 @@ class Grid:
             checks = [(1, 0), (0, 1), (-1, 0), (0, -1)]
         for xd, yd in checks:
             if (x + xd, y + yd) in self.grid:
-                ret[(x + xd, y + yd)] = self.grid[x + xd, y + yd]
+                ret[(x + xd, y + yd)] = self.grid[(x + xd, y + yd)]
         return ret
 
     def print_grid(self):
         for i in range(self.height):
             for j in range(self.length):
-                print(self.grid[i, j], end="")
+                print(self.grid.get((i, j), self.default), end="")
             print()
         print()
