@@ -17,24 +17,11 @@ defmodule Day9 do
       |> Grid.make_grid
   end
 
-  @neighbors [{0, 1}, {0, -1}, {1, 0}, {-1, 0}]
-  def neighbors, do: @neighbors
-
-  def get_neighbors(grid, {x, y}) do
-    Enum.reduce(Day9.neighbors(), [], fn ({dx, dy}, acc) ->
-      adj = {x + dx, y + dy}
-      case Map.get(grid, adj) do
-        nil -> acc
-        n -> [{adj, n} | acc]
-      end
-    end)
-  end
-
   def recurse_inner(grid, {{x, y}, n}, {traversed, acc}) do
     traversed = MapSet.put(traversed, {x, y})
     acc = [{{x, y}, n} | acc]
 
-    Day9.get_neighbors(grid, {x, y})
+    Grid.get_neighbors(grid, {x, y})
       |> Enum.reduce({traversed, acc}, fn ({adj, nadj}, {traversed, acc}) ->
         case nadj > n && nadj != 9 do
           true -> Day9.recurse(grid, {adj, nadj}, {traversed, acc})
@@ -56,7 +43,7 @@ grid = Day9.make_grid(input)
 
 {part1, lps} = grid
   |> Enum.reduce({0, []}, fn ({{x, y}, n}, {p1_acc, lps}) ->
-    is_lp = Day9.get_neighbors(grid, {x, y})
+    is_lp = Grid.get_neighbors(grid, {x, y})
       |> Enum.all?(fn {_adj, nadj} -> nadj > n end)
 
     case is_lp do
