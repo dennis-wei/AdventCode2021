@@ -41,6 +41,9 @@ input = (
 )
 
 def recurse(grid, point, n, traversed, acc):
+    if point in traversed:
+        return
+
     (x, y) = point
     traversed.add(point)
     acc.append(point)
@@ -74,9 +77,8 @@ def solve(input):
         traversed = set()
         recurse(grid, (x, y), grid[(x, y)], traversed, acc)
 
-        deduped = set(acc)
-        basin_sizes[(x, y)] = len(deduped)
-        basins[(x, y)] = deduped
+        basin_sizes[(x, y)] = len(acc)
+        basins[(x, y)] = acc
     
     top = sorted(basin_sizes.values(), reverse = True)[:3]
     p2 = top[0] * top[1] * top[2]
