@@ -68,6 +68,7 @@ with open(f"python/{day}/run.py", 'w') as f:
 
 elixir_template = f"""
 Code.require_file("lib/input.ex")
+Code.require_file("lib/grid.ex")
 filename = "input/{day}.txt"
 # filename = "test_input/{day}.txt"
 input = Input

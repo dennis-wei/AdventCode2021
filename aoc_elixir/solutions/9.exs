@@ -1,4 +1,5 @@
 Code.require_file("lib/input.ex")
+Code.require_file("lib/grid.ex")
 filename = "input/9.txt"
 # filename = "test_input/9.txt"
 input = Input
@@ -8,23 +9,12 @@ input = Input
   # .line_of_ints(filename)
 
 defmodule Day9 do
-  def to_map(glist) do
-    Map.new(glist, fn ent ->
-      {n, r, c} = ent
-      {{r, c}, n}
-    end)
-  end
-
   def make_grid(rows) do
-    as_list = rows
+    rows
       |> Enum.map(&String.trim/1)
       |> Enum.map(&String.graphemes/1)
       |> Enum.map(fn r -> Enum.map(r, &String.to_integer/1) end)
-      |> Enum.map(&Enum.with_index/1)
-      |> then(&Enum.with_index/1)
-      |> Enum.flat_map(fn {row, ridx} -> Enum.map(row, fn e -> Tuple.insert_at(e, 1, ridx) end) end)
-
-    to_map(as_list)
+      |> Grid.make_grid
   end
 
   @neighbors [{0, 1}, {0, -1}, {1, 0}, {-1, 0}]
