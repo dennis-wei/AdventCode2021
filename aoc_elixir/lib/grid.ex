@@ -33,4 +33,29 @@ defmodule Grid do
       end
     end)
   end
+
+  def print_grid(grid, replacements \\ %{}, sep \\ "") do
+    sorted = Enum.sort(Map.to_list(grid), fn ({{r1, c1}, _v1}, {{r2, c2}, _v2}) ->
+      cond do
+        r1 < r2 -> true
+        r2 < r1 -> false
+        c1 < c2 -> true
+        c2 < c1 -> false
+        true -> true
+      end
+    end)
+
+    {{r, _c}, _v} = hd(sorted)
+    {_p, acc} = Enum.reduce(sorted, {r, ""}, fn ({{nr, _nc}, nv}, {pr, acc}) ->
+      to_print = Map.get(replacements, nv, nv)
+      cond do
+        nr == pr ->
+          {nr, "#{acc}#{sep}#{to_print}"}
+        true ->
+          IO.puts(acc)
+          {nr, "#{to_print}"}
+      end
+    end)
+    IO.puts(acc)
+  end
 end

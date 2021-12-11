@@ -73,6 +73,9 @@ class Grid:
         for row_num, row in enumerate(input):
             for col_num, c in enumerate(row):
                 self.grid[(row_num, col_num)] = replacements.get(c, c)
+
+    def items(self):
+        return self.grid.items()
     
     def get_adjacent(self, x, y, diagonal=True):
         ret = {}
@@ -85,9 +88,10 @@ class Grid:
                 ret[(x + xd, y + yd)] = self.grid[(x + xd, y + yd)]
         return ret
 
-    def print_grid(self):
+    def print_grid(self, replacements = {}):
         for i in range(self.height):
             for j in range(self.length):
-                print(self.grid.get((i, j), self.default), end="")
+                v = self.grid.get((i, j), self.default)
+                print(replacements.get(v, v), end="")
             print()
         print()
