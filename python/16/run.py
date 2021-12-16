@@ -77,27 +77,45 @@ def handle_literal_packet(packet_version, input):
         i += 5
         next_chunk = input[i:i+5]
 
-    # print("literal packet: ", (packet_version, int(chunk_acc, 2)))
     return [(packet_version, int(chunk_acc, 2))], input[i:]
 
-def handle_length_packet(packet_version, input):
-    # print(input)
+def do_reduce(args, packet_type):
+    packet_version_sum = sum(t[0] for t in args)
+
+    op_args = [t[1] for t in args[1:]]
+    if packet_type == 0:
+        res = sum(op_args)
+    elif packet_type == 1:
+        res = reduce(lambda x, y: x * y, op_args, 1)
+    elif packet_type == 2:
+        res = min(op_args)
+    elif packet_type == 3:
+        res = max(op_args)
+    elif packet_type == 5:
+        res = int(op_args[0] > op_args[1])
+    elif packet_type == 6:
+        res = int(op_args[0] < op_args[1])
+    elif packet_type == 7:
+        res = int(op_args[0] == op_args[1])
+        
+    return [(packet_version_sum, res)]
+
+def handle_length_packet(packet_type, packet_version, input):
     total_length = int(input[:15], 2)
     segment = input[15:15 + total_length]
 
     remaining = segment
-    acc = [(packet_version, None)]
+    acc = [(packet_version, packet_type)]
     while(len(remaining) > 0):
-        # print("remaining: ", remaining)
         packet, remaining = get_next_packet(remaining)
         acc += packet
-    return acc, input[15 + total_length:]
+    return do_reduce(acc, packet_type), input[15 + total_length:]
 
-def handle_num_packet(packet_version, input):
+def handle_num_packet(packet_type, packet_version, input):
     num_sub_packets = int(input[:11], 2)
 
     num_fetched = 0
-    acc = [(packet_version, None)]
+    acc = [(packet_version, packet_type)]
 
     remaining = input[11:]
     while num_fetched < num_sub_packets:
@@ -105,7 +123,7 @@ def handle_num_packet(packet_version, input):
         acc += packet
         num_fetched += 1
 
-    return acc, remaining
+    return do_reduce(acc, packet_type), remaining
 
 def get_next_packet(input):
     if set(input) == set(["0"]) or input == "":
@@ -122,16 +140,15 @@ def get_next_packet(input):
     else:
         length_id = remaining[0]
         if length_id == "0":
-            return handle_length_packet(packet_version, remaining[1:])
+            return handle_length_packet(packet_type, packet_version, remaining[1:])
         elif length_id == "1":
-            return handle_num_packet(packet_version, remaining[1:])
+            return handle_num_packet(packet_type, packet_version, remaining[1:])
 
 start = time.time()
 initial = parse_input(input)
 solve_acc, remaining = get_next_packet(initial)
-print(solve_acc)
-answer1 = sum(t[0] for t in solve_acc)
-answer2 = None
+answer1 = solve_acc[0][0]
+answer2 = solve_acc[0][1]
 
 print("Part 1")
 print(f"Answer: {answer1}")
