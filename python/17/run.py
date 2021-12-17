@@ -40,13 +40,9 @@ def simulate(target_area, hax, ly, xv, yv):
     x = 0
     y = 0
     max_y = 0
-    # print("point: ", x, y)
-    # print("vel: ", xv, yv)
     while y > ly and abs(x) < hax:
         x += xv
         y += yv
-        # print("point: ", x, y)
-        # print("vel: ", xv, yv)
         if y > max_y:
             max_y = y
         if (x, y) in target_area:
@@ -70,6 +66,7 @@ def solve(input):
     hy = y1 if y1 > y2 else y2
 
     hax = max(abs(lx), abs(hx))
+    hay = max(abs(ly), abs(hy))
 
     print("xrange: ", lx, hx)
     print("yrange: ", ly, hy)
@@ -81,13 +78,14 @@ def solve(input):
     
     highest_y = -1
     best_option = (-1, -1)
-    num_checked = 0
     num_work = 0
-    for ix in range(hx + 1):
-        for iy in range(-10 * (hx - ly), 10 * (hy - ly) + 1):
-            num_checked += 1
-            if num_checked % 1000 == 0:
-                print(num_checked)
+
+    if hx > 0:
+        x_range = range(hax + 1)
+    else:
+        x_range = range(0, -hax - 1, -1)
+    for ix in x_range:
+        for iy in range(-hay, hay + 1):
             hit_target, my = simulate(target, hax, ly, ix, iy)
             if hit_target:
                 num_work += 1
