@@ -17,7 +17,7 @@ def list_of_ints(l):
     return [int(e) for e in l]
 
 def get_all_nums(s):
-    return list_of_ints(re.findall(r'\d+', s))
+    return list_of_ints(re.findall(r'-?\d+', s))
 
 def grid_to_map(i, index_by_one=False, split_input=False):
     if split_input:
